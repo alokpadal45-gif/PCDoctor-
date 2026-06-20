@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Doctor - Problem Fixer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1>PC Doctor</h1>
+        <p>Select a problem, run a diagnosis, and apply a fix.</p>
+    </header>
+
+    <!-- Live stats bar at the top -->
+    <section class="stats-bar">
+        <div class="stat-box">
+            <span class="stat-label">CPU</span>
+            <span class="stat-value" id="cpu-stat">{{ system_info.cpu_percent }}%</span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-label">RAM</span>
+            <span class="stat-value" id="ram-stat">{{ system_info.ram_percent }}%</span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-label">Disk</span>
+            <span class="stat-value" id="disk-stat">{{ system_info.disk_percent }}%</span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-label">Battery</span>
+            <span class="stat-value" id="battery-stat">
+                {% if system_info.battery_percent %}
+                    {{ system_info.battery_percent }}%
+                {% else %}
+                    N/A
+                {% endif %}
+            </span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-label">Temp</span>
+            <span class="stat-value" id="temp-stat">
+                {% if system_info.temperature_c %}
+                    {{ system_info.temperature_c }} C
+                {% else %}
+                    N/A
+                {% endif %}
+            </span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-label">OS</span>
+            <span class="stat-value">{{ system_info.os }}</span>
+        </div>
+    </section>
+
+    <!-- Problem cards grid -->
+    <main class="problems-grid">
+
+        <!-- Each card has a data-id that matches the problem_id in Python -->
+
+        <div class="problem-card" data-id="bluescreen">
+            <h3>Blue Screen (BSOD)</h3>
+            <p>System crashes to a blue screen unexpectedly.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="auto_restart">
+            <h3>Auto Restart</h3>
+            <p>Computer restarts on its own without warning.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="wifi_slow">
+            <h3>WiFi / No Internet</h3>
+            <p>No internet connection or very slow speeds.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="headset_airpods">
+            <h3>Headset / AirPods</h3>
+            <p>Bluetooth audio device not connecting properly.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="keystroke_error">
+            <h3>Keystroke Error</h3>
+            <p>Keys feel stuck, delayed, or do not register correctly.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="screen_flickering">
+            <h3>Screen Flickering</h3>
+            <p>Display flickers, flashes, or shows visual artifacts.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="dll_missing">
+            <h3>DLL Missing</h3>
+            <p>Application fails to open with a missing DLL error.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="auto_delete">
+            <h3>Auto Deleting Files</h3>
+            <p>Files disappear from folders without the user deleting them.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="ram_overuse">
+            <h3>RAM Overuse</h3>
+            <p>Memory usage is too high and the system is struggling.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="slow_performance">
+            <h3>Slow Performance</h3>
+            <p>Everything feels sluggish and takes too long to respond.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="file_not_responding">
+            <h3>File Not Responding</h3>
+            <p>Applications or files freeze and show Not Responding.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="screensaver">
+            <h3>Screensaver Starting</h3>
+            <p>Screensaver activates unexpectedly during use.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="update_failure">
+            <h3>System Update Failure</h3>
+            <p>Windows updates fail to install or get stuck.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="camera">
+            <h3>Camera Undetectable</h3>
+            <p>Webcam is not recognized or shows a black screen.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="fingerprint">
+            <h3>Fingerprint Detection</h3>
+            <p>Fingerprint sensor not working or not detected.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="auto_screenshot">
+            <h3>Auto Screenshot</h3>
+            <p>Screenshots being taken automatically without user action.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="overheating">
+            <h3>Overheating</h3>
+            <p>CPU temperature is dangerously high or fan runs constantly.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="battery_drain">
+            <h3>Battery Drain</h3>
+            <p>Battery depletes much faster than it should.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="freezing_hanging">
+            <h3>Freezing / Hanging Screen</h3>
+            <p>Screen freezes and the mouse stops responding.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+        <div class="problem-card" data-id="data_recovery">
+            <h3>Data Recovery</h3>
+            <p>Important files have been lost or accidentally deleted.</p>
+            <div class="card-buttons">
+                <button class="btn-diagnose" onclick="diagnose(this)">Diagnose</button>
+                <button class="btn-fix" onclick="fix(this)">Fix</button>
+            </div>
+            <div class="card-result hidden"></div>
+        </div>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

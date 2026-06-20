@@ -1,0 +1,198 @@
+/* General reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #222;
+    min-height: 100vh;
+}
+
+/* Top header */
+header {
+    background-color: #1a3c5e;
+    color: white;
+    padding: 20px 30px;
+}
+
+header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+header p {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* Live stats bar */
+.stats-bar {
+    display: flex;
+    gap: 12px;
+    padding: 16px 30px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    flex-wrap: wrap;
+}
+
+.stat-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f7f8fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 10px 18px;
+    min-width: 80px;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a3c5e;
+}
+
+/* Problems grid */
+.problems-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+    padding: 24px 30px;
+}
+
+/* Individual problem card */
+.problem-card {
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 18px;
+    transition: box-shadow 0.2s;
+}
+
+.problem-card:hover {
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+}
+
+.problem-card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a3c5e;
+    margin-bottom: 6px;
+}
+
+.problem-card p {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 14px;
+    line-height: 1.5;
+}
+
+/* Card action buttons */
+.card-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-diagnose,
+.btn-fix {
+    flex: 1;
+    padding: 8px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-diagnose {
+    background-color: #1a3c5e;
+    color: white;
+}
+
+.btn-diagnose:hover {
+    background-color: #15304d;
+}
+
+.btn-fix {
+    background-color: #2e7d32;
+    color: white;
+}
+
+.btn-fix:hover {
+    background-color: #256427;
+}
+
+.btn-diagnose:disabled,
+.btn-fix:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+}
+
+/* Result panel shown below the buttons after a check */
+.card-result {
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    border-left: 4px solid #ccc;
+    background-color: #fafafa;
+}
+
+.card-result.hidden {
+    display: none;
+}
+
+/* Status colour coding for the result panel */
+.card-result.status-ok {
+    border-left-color: #2e7d32;
+    background-color: #f0faf0;
+    color: #1a4d1a;
+}
+
+.card-result.status-warning {
+    border-left-color: #e65100;
+    background-color: #fff8f0;
+    color: #7a3400;
+}
+
+.card-result.status-critical {
+    border-left-color: #c62828;
+    background-color: #fff5f5;
+    color: #7a1a1a;
+}
+
+.card-result.status-success {
+    border-left-color: #2e7d32;
+    background-color: #f0faf0;
+    color: #1a4d1a;
+}
+
+.card-result.status-failed {
+    border-left-color: #c62828;
+    background-color: #fff5f5;
+    color: #7a1a1a;
+}
+
+/* Loading state shown while waiting for a response */
+.card-result.loading {
+    border-left-color: #1a3c5e;
+    background-color: #f0f4f8;
+    color: #333;
+    font-style: italic;
+}
